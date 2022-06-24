@@ -19,7 +19,7 @@ static void TJS_USERENTRY TryReleaseUnhandledExceptionFilterClosure(void *data)
 	}
 }
 
-static bool TJS_USERENTRY CatchReleaseUnhandledExceptionFilterClosure(void *data, const tTVPExceptionDesc & desc)
+static bool TJS_USERENTRY CatchReleaseUnhandledExceptionFilterClosure(void *data, const tTVPExceptionDesc &desc)
 {
 	(void)data;
 	(void)desc;
@@ -98,7 +98,7 @@ static void TJS_USERENTRY TryCallUnhandledExceptionFilterClosure(void *data)
 	}
 }
 
-static bool TJS_USERENTRY CatchCallUnhandledExceptionFilterClosure(void *data, const tTVPExceptionDesc & desc)
+static bool TJS_USERENTRY CatchCallUnhandledExceptionFilterClosure(void *data, const tTVPExceptionDesc &desc)
 {
 	(void)desc;
 	ExceptionFilterClosureData *pdata;
@@ -140,18 +140,18 @@ struct System
 
 NCB_ATTACH_FUNCTION(setUnhandledExceptionFilter, System, System::setUnhandledExceptionFilter);
 
-static void RegistCallback(void)
+static void SelfRegisterCallback(void)
 {
 	SetUnhandledExceptionFilter(SelfUnhandledExceptionHandler);
 }
 
-NCB_PRE_REGIST_CALLBACK(RegistCallback);
+NCB_PRE_REGIST_CALLBACK(SelfRegisterCallback);
 
 
-static void UnregistCallback(void)
+static void SelfUnregisterCallback(void)
 {
 	SetUnhandledExceptionFilter(NULL);
 	ReleaseUnhandledExceptionFilterClosure();
 }
 
-NCB_POST_UNREGIST_CALLBACK(UnregistCallback);
+NCB_POST_UNREGIST_CALLBACK(SelfUnregisterCallback);
